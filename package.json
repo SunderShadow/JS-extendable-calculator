@@ -6,6 +6,14 @@
   "type": "module",
   "author": "Alexandr Shvedov",
   "license": "MIT",
+  "main": "./dist/extendable-calculator.umd.cjs",
+  "module": "./dist/extendable-calculator.js",
+  "exports": {
+    ".": {
+      "import": "./dist/extendable-calculator.js",
+      "require": "./dist/extendable-calculator.umd.cjs"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
