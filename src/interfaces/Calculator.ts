@@ -1,12 +1,12 @@
 export type Statement = string
 
-export type OperationPriority = boolean
+export type OperationPriority = number
 export type MethodCb = (a: number, b: number) => number
 
 export type Operation = {
     keyWord: string
     cb: MethodCb,
-    isImportant: OperationPriority
+    priority: OperationPriority
 }
 
 export default interface Calculator {

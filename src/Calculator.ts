@@ -4,16 +4,12 @@ import CalculatorInterface, {Operation, MethodCb, OperationPriority, Statement} 
 export default class Calculator implements CalculatorInterface {
     _operations: Array<Operation> = []
 
-    public addOperation(keyWord: string, cb: MethodCb, isImportant: OperationPriority = false) {
+    public addOperation(keyWord: string, cb: MethodCb, priority: OperationPriority = 3) {
         this._operations.push({
             keyWord,
             cb,
-            isImportant: isImportant
+            priority
         })
-    }
-
-    public addImportantOperation(keyWord: string, cb: MethodCb) {
-        return this.addOperation(keyWord, cb, true)
     }
 
     private getOperation(statement: Statement, i: number): Operation | undefined {
@@ -82,14 +78,14 @@ export default class Calculator implements CalculatorInterface {
             if ( tmpOperation
                 && !operation || (
                     tmpOperation
-                    && (<Operation>operation).isImportant >= tmpOperation.isImportant
+                    && (<Operation>operation).priority < tmpOperation.priority
                 )
             ) {
                 operation = tmpOperation
                 lNumI = i
                 rNumI = i += operation.keyWord.length
 
-                if (!operation.isImportant) {
+                if (operation.priority === 3) {
                     break
                 }
             }
