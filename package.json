@@ -1,12 +1,22 @@
 {
-  "name": "js-calculator",
-  "private": true,
-  "version": "0.0.0",
+  "name": "extendable-calculator",
+  "version": "0.1.0",
+  "description": "Extendable calculator class",
+  "private": false,
   "type": "module",
+  "author": "Alexandr Shvedov",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SunderShadow/JS-extendable-calculator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SunderShadow/JS-extendable-calculator/issues"
   },
   "devDependencies": {
     "typescript": "^4.6.4",
