@@ -16,6 +16,10 @@ const registeredOperations = {
     mod: <Operation>{
         keyWord: "mod",
         cb: (a, b) => a % b
+    },
+    to1: <Operation>{
+        keyWord: "to",
+        cb: () => 1
     }
 }
 
@@ -60,5 +64,14 @@ describe("Calculator", function () {
             const result = calculator.calc(a.toString() + registeredOperations.mod.keyWord + b.toString())
             assert.equal(registeredOperations.mod.cb(a, b), result)
         })
+    })
+
+    it('Word operator with nums', function () {
+        let a = 5
+        let b = 10
+
+        const operation = registeredOperations.to1
+        const result = calculator.calc(a.toString() + ' ' + operation.keyWord + ' ' + b.toString())
+        assert.equal(operation.cb(a, b), result)
     })
 })
