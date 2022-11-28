@@ -97,7 +97,7 @@ export default class Calculator implements CalculatorInterface {
 
         return operation.cb(
             this.calc(statement.substring(0, lNumI).trim()),
-            this.calc(statement.substring(rNumI + 1).trim())
+            this.calc(statement.substring(rNumI).trim())
         )
     }
 }
