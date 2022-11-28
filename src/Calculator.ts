@@ -12,6 +12,45 @@ export default class Calculator implements CalculatorInterface {
         })
     }
 
+    public calc(statement: Statement): number {
+        statement = this.extractParentheses(statement)
+
+        if (this.statementHasOnlyNumbers(statement)) {
+            return parseFloat(statement)
+        }
+
+        let operation: Operation | undefined
+        let lNumI: number = -1
+        let rNumI: number = -1
+
+        for (let i = 0; i < statement.length; ++i) {
+            let tmpOperation = this.getOperation(statement, i)
+
+            if (
+                tmpOperation
+                && !operation
+                || (tmpOperation && (<Operation>operation).priority < tmpOperation.priority)
+            ) {
+                operation = tmpOperation
+                lNumI = i
+                rNumI = i += operation.keyWord.length
+
+                if (operation.priority === 3) {
+                    break
+                }
+            }
+        }
+
+        if (!operation || lNumI === -1 || rNumI === -1) {
+            throw new Error("No registered operators found")
+        }
+
+        return operation.cb(
+            this.calc(statement.substring(0, lNumI).trim()),
+            this.calc(statement.substring(rNumI).trim())
+        )
+    }
+
     private getOperation(statement: Statement, i: number): Operation | undefined {
         let maxSuitableKeyWordSize = 0
         let suitableOperation: Operation | undefined = undefined
@@ -34,15 +73,7 @@ export default class Calculator implements CalculatorInterface {
         return parseFloat(statement).toString() === statement
     }
 
-    public calc(statement: Statement): number {
-        if (this.statementHasOnlyNumbers(statement)) {
-            return parseFloat(statement)
-        }
-
-        let operation: Operation | undefined
-        let lNumI: number = -1
-        let rNumI: number = -1
-
+    private extractParentheses(statement: string) {
         let parenthesesDepth = 0
         let parenthesesStart = -1
 
@@ -64,40 +95,10 @@ export default class Calculator implements CalculatorInterface {
             }
         }
 
-        if (this.statementHasOnlyNumbers(statement)) {
-            return parseFloat(statement)
-        }
-
         if (parenthesesDepth !== 0) {
             throw Error("Parentheses must have pair")
         }
 
-        for (let i = 0; i < statement.length; ++i) {
-            let tmpOperation = this.getOperation(statement, i)
-
-            if ( tmpOperation
-                && !operation || (
-                    tmpOperation
-                    && (<Operation>operation).priority < tmpOperation.priority
-                )
-            ) {
-                operation = tmpOperation
-                lNumI = i
-                rNumI = i += operation.keyWord.length
-
-                if (operation.priority === 3) {
-                    break
-                }
-            }
-        }
-
-        if (!operation || lNumI === -1 || rNumI === -1) {
-            throw new Error("No registered operators found")
-        }
-
-        return operation.cb(
-            this.calc(statement.substring(0, lNumI).trim()),
-            this.calc(statement.substring(rNumI).trim())
-        )
+        return statement
     }
 }
