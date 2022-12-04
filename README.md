@@ -19,7 +19,7 @@ calculator.calc("12 * 4") // Error: undefined operation
 calculator.addOperation('*', (a, b) => a * b)
 calculator.calc("12 * 4") // 48
 
-// We can use words for operation keyword
+// We can use words as operation keyword
 calculator.addOperation('mod', (a, b) => a % b)
 calculator.calc("12 mod 4") // 0
 
